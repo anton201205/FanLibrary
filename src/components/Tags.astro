@@ -1,0 +1,56 @@
+---
+interface Props {
+  tags: string[];
+  type?: "default" | "fandom" | "genero";
+  max?: number;
+  clickable?: boolean;
+}
+
+const {
+  tags,
+  type = "default",
+  max,
+  clickable = false,
+} = Astro.props;
+
+const displayed = max ? tags.slice(0, max) : tags;
+const remaining = max ? tags.length - max : 0;
+
+const tagClass = {
+  default:
+    "rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-[10px] font-medium text-slate-300",
+
+  fandom:
+    "rounded-full border border-orange-500/30 bg-orange-500/10 px-2 py-1 text-[10px] font-medium text-orange-300",
+
+  genero:
+    "rounded-full border border-pink-500/30 bg-pink-500/10 px-2 py-1 text-[10px] font-medium text-pink-300",
+}[type];
+
+const clickableClass = clickable
+  ? "cursor-pointer transition hover:scale-105 hover:border-pink-500/50 hover:bg-pink-500/20"
+  : "";
+---
+
+<div class="flex flex-wrap gap-1.5">
+
+  {
+    displayed.map((tag) => (
+      <span
+        class={`${tagClass} ${clickableClass}`}
+        data-tag={clickable ? tag : undefined}
+      >
+        {tag}
+      </span>
+    ))
+  }
+
+  {
+    remaining > 0 && (
+      <span class="rounded-full border border-slate-700 bg-slate-800 px-2 py-1 text-[10px] text-slate-500">
+        +{remaining}
+      </span>
+    )
+  }
+
+</div>

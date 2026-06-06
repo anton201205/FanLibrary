@@ -1,0 +1,231 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navbar from "../components/Navbar.astro";
+import FanficModal from "../components/FanficModal.astro";
+---
+
+<MainLayout title="Mi Biblioteca" description="Tu colección personal de fanfictions guardados">
+  <Navbar currentPath="/biblioteca" />
+
+  <div class="max-w-7xl mx-auto px-6 py-10">
+
+    <!-- Header -->
+    <section class="mb-10 rounded-3xl border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div>
+          <h1 class="text-5xl font-bold tracking-tight">Mi Biblioteca</h1>
+          <p class="mt-4 max-w-2xl text-lg text-slate-400">
+            <span id="lib-count" class="font-semibold text-pink-300">0</span> fanfics guardados
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3 items-center">
+          <div class="relative">
+            <select
+              id="lib-sort"
+              class="appearance-none rounded-2xl border border-white/10 bg-slate-900/80 py-2.5 pl-4 pr-9 text-sm text-white outline-none transition hover:border-pink-500/30 focus:border-pink-500/50 cursor-pointer"
+            >
+              <option value="reciente">Últimos añadidos</option>
+              <option value="titulo">Título A-Z</option>
+              <option value="capitulos">Más capítulos</option>
+            </select>
+            <span class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">▾</span>
+          </div>
+
+          <button
+            id="clear-library-btn"
+            class="flex items-center gap-2 rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-400 transition-all hover:border-red-500/40 hover:bg-red-500/20 hover:text-red-300"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            Vaciar
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Estado vacío -->
+    <div id="empty-library" class="hidden">
+      <div class="flex flex-col items-center justify-center rounded-3xl border border-white/5 bg-white/[0.02] py-28 text-center gap-6">
+        <div class="flex h-24 w-24 items-center justify-center rounded-full border border-white/5 bg-white/[0.03] text-5xl opacity-40">📭</div>
+        <div>
+          <h2 class="text-xl font-bold text-white mb-2">Tu biblioteca está vacía</h2>
+          <p class="text-sm text-slate-400 max-w-xs mx-auto">Explora fanfics y añade los que te interesen.</p>
+        </div>
+          Explorar fanfics
+        </a>
+      </div>
+    </div>
+
+    <!-- Grid -->
+<div id="lib-grid" class="hidden">
+  <div
+    id="fanfic-grid"
+    class="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4 xl:grid-cols-5"
+  ></div>
+</div>
+
+  </div>
+
+  <!-- Modal vaciar -->
+  <div
+    id="confirm-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center"
+    style="background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);"
+  >
+    <div class="mx-4 w-full max-w-sm rounded-3xl border border-white/10 bg-slate-900 p-8 text-center shadow-2xl">
+      <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-red-500/20 bg-red-500/10 text-2xl">🗑️</div>
+      <h3 class="mb-2 text-lg font-bold text-white">¿Vaciar biblioteca?</h3>
+      <p class="mb-6 text-sm text-slate-400">Se eliminarán todos los fanfics guardados. Esta acción no se puede deshacer.</p>
+      <div class="flex gap-3 justify-center">
+        <button id="confirm-cancel" class="rounded-2xl border border-white/10 bg-white/5 px-5 py-2.5 text-sm font-medium text-slate-300 transition hover:bg-white/10">Cancelar</button>
+        <button id="confirm-ok"     class="rounded-2xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700">Sí, vaciar</button>
+      </div>
+    </div>
+  </div>
+
+   <FanficModal />
+   
+</MainLayout>
+
+<style>
+  #confirm-modal.flex { display: flex !important; }
+</style>
+
+<script>
+  import { getLibrary, removeFromLibrary, clearLibrary } from '../scripts/library.js';
+
+  // ── Elementos ──────────────────────────────────────────────────────────────
+  const grid      = document.getElementById('fanfic-grid')!;
+  const emptyDiv  = document.getElementById('empty-library')!;
+  const libGrid   = document.getElementById('lib-grid')!;
+  const libCount  = document.getElementById('lib-count')!;
+  const libSort   = document.getElementById('lib-sort') as HTMLSelectElement;
+  const modal     = document.getElementById('confirm-modal')!;
+
+  // ── Estado ─────────────────────────────────────────────────────────────────
+  let library = getLibrary();
+
+  // ── Helpers ────────────────────────────────────────────────────────────────
+  const esc = (s: string) => String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+  function sorted(items: any[]) {
+    const s = [...items];
+    switch (libSort.value) {
+      case 'titulo':    return s.sort((a, b) => a.titulo.localeCompare(b.titulo, 'es'));
+      case 'capitulos': return s.sort((a, b) => (b.capitulos || 0) - (a.capitulos || 0));
+      default:          return s.sort((a, b) =>
+        new Date(b.fechaGuardado || 0).getTime() - new Date(a.fechaGuardado || 0).getTime()
+      );
+    }
+  }
+
+  // ── Card idéntica a FanficCard.astro ───────────────────────────────────────
+function renderCard(fanfic: any) {
+  const estadoClass = fanfic.estado === 'Completo' ? 'bg-emerald-600' : 'bg-amber-500';
+  const fanficJson  = esc(JSON.stringify(fanfic));
+
+  const generos = (fanfic.generos || []).slice(0, 2)
+    .map((g: string) => `<span class="inline-block rounded-full border border-pink-500/20 bg-pink-500/10 px-2 py-0.5 text-[0.6rem] font-medium text-pink-300">${esc(g)}</span>`)
+    .join('');
+
+  return `
+    <article
+      data-fanfic="${fanficJson}"
+      class="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-500/30 hover:shadow-xl hover:shadow-pink-500/10"
+    >
+      <button data-action="open-modal" class="relative block w-full overflow-hidden text-left">
+        <img
+          src="${esc(fanfic.portada)}"
+          alt="${esc(fanfic.titulo)}"
+          loading="lazy"
+          onerror="this.src='https://picsum.photos/300/450'"
+          class="aspect-[2/3] w-full object-cover transition duration-500 group-hover:scale-105"
+        />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+        <span class="absolute left-2 top-2 rounded-full px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-white shadow ${estadoClass}">
+          ${esc(fanfic.estado)}
+        </span>
+        <div class="absolute bottom-0 left-0 right-0 p-2">
+          <h3 class="line-clamp-2 text-xs font-bold leading-4 text-white drop-shadow-md sm:text-sm">
+            ${esc(fanfic.titulo)}
+          </h3>
+        </div>
+      </button>
+
+      <div class="flex flex-1 flex-col gap-2 p-2.5 sm:gap-3 sm:p-4">
+        <p class="truncate text-[0.65rem] text-slate-400">
+          <span class="font-semibold text-pink-300">${esc(fanfic.autor)}</span>
+        </p>
+        <p class="text-[0.65rem] text-slate-500">${fanfic.capitulos} cap.</p>
+        <div class="hidden sm:flex flex-wrap gap-1">${generos}</div>
+        <button
+          data-action="remove"
+          data-id="${fanfic.id}"
+          class="mt-auto rounded-lg bg-red-600/80 py-1.5 text-[0.65rem] font-semibold text-white transition hover:bg-red-600 sm:rounded-xl sm:py-2.5 sm:text-sm"
+        >
+          ✕ Quitar
+        </button>
+      </div>
+    </article>`;
+}
+  // ── Render ─────────────────────────────────────────────────────────────────
+  function render() {
+    const items = sorted(library);
+    libCount.textContent = String(library.length);
+
+    if (library.length === 0) {
+      emptyDiv.classList.remove('hidden');
+      libGrid.classList.add('hidden');
+      return;
+    }
+
+    emptyDiv.classList.add('hidden');
+    libGrid.classList.remove('hidden');
+    grid.innerHTML = items.map(renderCard).join('');
+
+    // Botones quitar
+    grid.querySelectorAll('[data-action="remove"]').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        const id = (btn as HTMLElement).dataset.id!;
+        removeFromLibrary(id);
+        library = getLibrary();
+        render();
+        (window as any).showToast?.('Fanfic quitado de tu biblioteca', 'remove');
+      });
+    });
+  }
+
+  // ── Eventos ────────────────────────────────────────────────────────────────
+  libSort.addEventListener('change', render);
+
+  // Modal vaciar
+  document.getElementById('clear-library-btn')?.addEventListener('click', () => {
+    if (!library.length) return;
+    modal.classList.add('flex');
+    modal.classList.remove('hidden');
+  });
+  document.getElementById('confirm-cancel')?.addEventListener('click', () => {
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+  });
+  document.getElementById('confirm-ok')?.addEventListener('click', () => {
+    clearLibrary();
+    library = [];
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    render();
+    (window as any).showToast?.('Biblioteca vaciada', 'remove');
+  });
+  modal.addEventListener('click', e => {
+    if (e.target === modal) {
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+  });
+
+  render();
+</script>

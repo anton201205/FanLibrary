@@ -1,0 +1,179 @@
+---
+
+interface Props {
+autores: string[];
+generos: string[];
+etiquetas: string[];
+}
+
+const {
+autores,
+generos,
+etiquetas,
+} = Astro.props;
+---
+
+<aside
+  class="sticky top-24 rounded-3xl border border-white/10 bg-slate-900/70 p-6 backdrop-blur-sm"
+>
+  <div class="mb-6 flex items-center gap-3">
+    <div
+      class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-orange-500"
+    >
+      🎛️
+    </div>
+
+<div>
+  <h2 class="font-semibold text-white">
+    Filtros
+  </h2>
+
+  <p class="text-xs text-slate-400">
+    Encuentra tu próxima lectura
+  </p>
+</div>
+
+  </div>
+
+  <div class="space-y-5">
+
+
+<!-- Autor -->
+<div>
+  <label
+    for="filter-autor"
+    class="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-400"
+  >
+    Autor
+  </label>
+
+  <select
+    id="filter-autor"
+    class="w-full rounded-xl border border-white/10 bg-slate-950/70 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-pink-500/50"
+  >
+    <option value="">Todos los autores</option>
+
+    {
+      autores.map((autor) => (
+        <option value={autor}>
+          {autor}
+        </option>
+      ))
+    }
+  </select>
+</div>
+
+<!-- Género -->
+<div>
+  <label
+    for="filter-genero"
+    class="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-400"
+  >
+    Género
+  </label>
+
+  <select
+    id="filter-genero"
+    class="w-full rounded-xl border border-white/10 bg-slate-950/70 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-pink-500/50"
+  >
+    <option value="">
+      Todos los géneros
+    </option>
+
+    {
+      generos.map((genero) => (
+        <option value={genero}>
+          {genero}
+        </option>
+      ))
+    }
+  </select>
+</div>
+
+<!-- Estado -->
+<div>
+  <label
+    for="filter-estado"
+    class="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-400"
+  >
+    Estado
+  </label>
+
+  <select
+    id="filter-estado"
+    class="w-full rounded-xl border border-white/10 bg-slate-950/70 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-pink-500/50"
+  >
+    <option value="">
+      Todos
+    </option>
+
+    <option value="Completo">
+      Completo
+    </option>
+
+    <option value="En Progreso">
+      En progreso
+    </option>
+  </select>
+</div>
+
+<!-- Etiquetas -->
+<div>
+  <h3
+    class="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-400"
+  >
+    Etiquetas populares
+  </h3>
+
+  <div class="flex flex-wrap gap-2">
+    {
+      etiquetas.slice(0, 12).map((tag) => (
+        <button
+          class="rounded-full border border-white/10 bg-slate-950/70 px-3 py-1.5 text-xs text-slate-300 transition hover:border-pink-500/40 hover:text-pink-300"
+          data-tag={tag}
+          data-action="filter-tag"
+        >
+          {tag}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<!-- Orden -->
+<div>
+  <label
+    for="filter-orden"
+    class="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-400"
+  >
+    Ordenar por
+  </label>
+
+  <select
+    id="filter-orden"
+    class="w-full rounded-xl border border-white/10 bg-slate-950/70 px-4 py-3 text-sm text-slate-200 outline-none transition focus:border-pink-500/50"
+  >
+    <option value="capitulos">
+      Más capítulos
+    </option>
+
+    <option value="reciente">
+      Más recientes
+    </option>
+
+    <option value="titulo">
+      Título A-Z
+    </option>
+  </select>
+</div>
+
+<!-- Limpiar -->
+<button
+  id="clear-filters"
+  class="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-slate-300 transition hover:border-pink-500/30 hover:bg-pink-500/10 hover:text-pink-300"
+>
+  Limpiar filtros
+</button>
+
+  </div>
+</aside>

@@ -1,0 +1,79 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  containerId: string;
+}
+ 
+const { currentPage, totalPages, containerId } = Astro.props;
+ 
+// Generar números de página a mostrar (máx 5 visibles)
+function getPageNumbers(current: number, total: number): (number | '...')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | '...')[] = [1];
+  if (current > 3) pages.push('...');
+  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
+    pages.push(i);
+  }
+  if (current < total - 2) pages.push('...');
+  pages.push(total);
+  return pages;
+}
+ 
+const pageNumbers = getPageNumbers(currentPage, totalPages);
+---
+ 
+{totalPages > 1 && (
+  <div
+    class="flex items-center justify-center gap-1 flex-wrap"
+    id={containerId}
+    data-container={containerId}
+    role="navigation"
+    aria-label="Paginación"
+  >
+    <!-- Anterior -->
+    <button
+      class="page-btn"
+      data-action="prev"
+      disabled={currentPage === 1}
+      aria-label="Página anterior"
+    >
+      ‹
+    </button>
+ 
+    <!-- Números -->
+    {pageNumbers.map(n =>
+      n === '...' ? (
+        <span class="page-btn" style="cursor:default;pointer-events:none;">…</span>
+      ) : (
+        <button
+          class={`page-btn ${n === currentPage ? 'current' : ''}`}
+          data-action="goto"
+          data-page={n}
+          aria-label={`Página ${n}`}
+          aria-current={n === currentPage ? 'page' : undefined}
+        >
+          {n}
+        </button>
+      )
+    )}
+ 
+    <!-- Siguiente -->
+    <button
+      class="page-btn"
+      data-action="next"
+      disabled={currentPage === totalPages}
+      aria-label="Página siguiente"
+    >
+      ›
+    </button>
+ 
+    <!-- Info -->
+    <span
+      class="ml-2 font-['Raleway'] text-xs"
+      style="color:var(--color-muted);"
+    >
+      {currentPage}/{totalPages}
+    </span>
+  </div>
+)}

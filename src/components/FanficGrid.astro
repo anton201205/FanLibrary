@@ -1,0 +1,76 @@
+---
+import FanficCard from "./FanficCard.astro";
+import Pagination from "./Pagination.astro";
+
+interface Fanfic {
+  id: number;
+  titulo: string;
+  autor: string;
+  portada: string;
+  capitulos: number;
+  estado: string;
+  generos: string[];
+  etiquetas: string[];
+}
+
+interface Props {
+  fanfics: Fanfic[];
+  currentPage?: number;
+  totalPages?: number;
+  paginationId?: string;
+  showRemove?: boolean;
+  emptyMessage?: string;
+}
+
+const {
+  fanfics,
+  currentPage = 1,
+  totalPages = 1,
+  paginationId = "pagination-top",
+  showRemove = false,
+  emptyMessage = "No se encontraron fanfics.",
+} = Astro.props as Props;
+---
+
+{
+  fanfics.length === 0 ? (
+    <div class="flex flex-col items-center justify-center gap-4 py-20 text-center">
+      <span class="text-6xl opacity-40">📭</span>
+
+      <p class="text-sm text-slate-400">
+        {emptyMessage}
+      </p>
+    </div>
+  ) : (
+    <div class="flex flex-col gap-6">
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          containerId={paginationId + "-top"}
+        />
+      )}
+
+      <div class="grid grid-cols-3 gap-3 sm:gap-4 md:grid-cols-4 xl:grid-cols-5">
+        {
+          fanfics.map((fanfic) => (
+            <FanficCard
+              fanfic={fanfic}
+              showRemove={showRemove}
+            />
+          ))
+        }
+      </div>
+
+      {totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          containerId={paginationId + "-bottom"}
+        />
+      )}
+
+    </div>
+  )
+}

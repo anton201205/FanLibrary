@@ -1,0 +1,36 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title} | FanficWorld</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+  rel="stylesheet"
+/>
+  </head>
+
+  <body class="min-h-screen bg-slate-950 text-slate-100 bg-fixed selection:bg-pink-500/30">
+    <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.15),transparent_30%),radial-gradient(circle_at_top_right,rgba(249,115,22,0.12),transparent_25%),radial-gradient(circle_at_bottom,rgba(59,130,246,0.12),transparent_35%)]"></div>
+
+    <slot />
+  </body>
+</html>

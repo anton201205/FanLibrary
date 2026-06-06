@@ -1,0 +1,94 @@
+---
+import Tags from "./Tags.astro";
+
+const { fanfic, showRemove = false } = Astro.props;
+---
+
+<article
+  data-fanfic={JSON.stringify(fanfic)}
+  class="group flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-slate-900/70 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-500/30 hover:shadow-xl hover:shadow-pink-500/10"
+>
+  <!-- Portada -->
+  <button
+    data-action="open-modal"
+    class="relative block w-full overflow-hidden text-left"
+  >
+    <img
+      src={fanfic.portada}
+      alt={fanfic.titulo}
+      loading="lazy"
+      onerror="this.src='https://picsum.photos/300/450'"
+      class="aspect-[2/3] w-full object-cover transition duration-500 group-hover:scale-105"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+
+    <!-- Estado -->
+    <span
+      class={`absolute left-2 top-2 rounded-full px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-white shadow ${
+        fanfic.estado === "Completo" ? "bg-emerald-600" : "bg-amber-500"
+      }`}
+    >
+      {fanfic.estado}
+    </span>
+
+    <!-- Título sobre la imagen (visible en mobile) -->
+    <div class="absolute bottom-0 left-0 right-0 p-2">
+      <h3 class="line-clamp-2 text-xs font-bold leading-4 text-white drop-shadow-md sm:text-sm">
+        {fanfic.titulo}
+      </h3>
+    </div>
+  </button>
+
+  <!-- Info -->
+  <div class="flex flex-1 flex-col gap-2 p-2.5 sm:gap-3 sm:p-4">
+
+    <!-- Autor -->
+    <p class="truncate text-[0.65rem] text-slate-400 sm:text-xs">
+      <span class="font-semibold text-pink-300">{fanfic.autor}</span>
+    </p>
+
+    <!-- Capítulos -->
+    <p class="text-[0.65rem] text-slate-500 sm:text-xs">
+      {fanfic.capitulos} cap.
+    </p>
+
+    <!-- Géneros — solo en sm+ -->
+    <div class="hidden sm:block">
+      <Tags tags={fanfic.generos} type="genero" max={2} />
+    </div>
+
+    <!-- Botón -->
+    {showRemove ? (
+      <button
+        data-action="remove"
+        data-id={fanfic.id}
+        class="mt-auto rounded-lg bg-red-600/80 py-1.5 text-[0.65rem] font-semibold text-white transition hover:bg-red-600 sm:rounded-xl sm:py-2.5 sm:text-sm"
+      >
+        ✕ Quitar
+      </button>
+    ) : (
+      <button
+        data-action="add"
+        data-id={fanfic.id}
+        data-fanfic={JSON.stringify({
+          id:            fanfic.id,
+          titulo:        fanfic.titulo,
+          autor:         fanfic.autor,
+          portada:       fanfic.portada,
+          capitulos:     fanfic.capitulos,
+          estado:        fanfic.estado,
+          generos:       fanfic.generos,
+          etiquetas:     fanfic.etiquetas,
+          personajes:    fanfic.personajes,
+          palabras:      fanfic.palabras,
+          clasificacion: fanfic.clasificacion,
+          descripcion:   fanfic.descripcion,
+          enlaces:       fanfic.enlaces,
+        })}
+        class="mt-auto rounded-lg bg-gradient-to-r from-pink-500 to-orange-500 py-1.5 text-[0.65rem] font-semibold text-white transition hover:opacity-90 sm:rounded-xl sm:py-2.5 sm:text-sm"
+      >
+        ＋ Añadir
+      </button>
+    )}
+  </div>
+</article>

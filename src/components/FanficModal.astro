@@ -1,0 +1,164 @@
+---
+---
+
+<div
+  id="fanfic-modal"
+  class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-4"
+  style="background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-titulo"
+>
+  <div class="relative w-full max-w-lg overflow-hidden rounded-2xl border border-white/10 bg-slate-900 shadow-2xl shadow-black/60">
+
+    <button
+      id="modal-close"
+      class="absolute right-3 top-3 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-400 transition hover:bg-white/10 hover:text-white"
+      aria-label="Cerrar"
+    >✕</button>
+
+    <div
+      class="flex flex-col gap-4 overflow-y-auto p-5 pt-12"
+      style="max-height:min(90vh,640px);"
+    >
+      <!-- Estado -->
+      <span id="modal-estado" class="self-start rounded-full px-3 py-1 text-xs font-semibold text-white"></span>
+
+      <!-- Título -->
+      <h2 id="modal-titulo" class="text-lg font-bold leading-snug text-white pr-4"></h2>
+
+      <!-- Autor -->
+      <p class="text-sm text-slate-400">por <span id="modal-autor" class="font-semibold text-pink-300"></span></p>
+
+      <!-- Meta -->
+      <div class="flex flex-wrap gap-3 text-sm text-slate-400">
+        <span id="modal-capitulos" class="flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span></span>
+        </span>
+        <span id="modal-palabras" class="flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span></span>
+        </span>
+        <span id="modal-clasificacion" class="flex items-center gap-1.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-pink-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span></span>
+        </span>
+      </div>
+
+      <!-- Descripción -->
+      <p id="modal-descripcion" class="text-sm leading-relaxed text-slate-300"></p>
+
+      <!-- Géneros -->
+      <div>
+        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Géneros</p>
+        <div id="modal-generos" class="flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <!-- Etiquetas -->
+      <div id="modal-etiquetas-wrap">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Etiquetas</p>
+        <div id="modal-etiquetas" class="flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <!-- Personajes -->
+      <div id="modal-personajes-wrap">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Personajes</p>
+        <div id="modal-personajes" class="flex flex-wrap gap-1.5"></div>
+      </div>
+
+      <!-- Enlaces -->
+      <div id="modal-enlaces-wrap">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Leer en</p>
+        <div id="modal-enlaces" class="flex flex-wrap gap-2"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  #fanfic-modal.flex { display: flex !important; }
+</style>
+
+<script>
+  const modal    = document.getElementById('fanfic-modal')!;
+  const closeBtn = document.getElementById('modal-close')!;
+  const $ = (id: string) => document.getElementById(id)!;
+
+  function tags(items: string[], colorClass: string) {
+    return (items || [])
+      .map(t => `<span class="inline-block rounded-full border ${colorClass} px-2.5 py-0.5 text-xs font-medium">${t}</span>`)
+      .join('');
+  }
+
+  function openModal(fanfic: any) {
+    $('modal-titulo').textContent      = fanfic.titulo      || '';
+    $('modal-autor').textContent       = fanfic.autor       || '';
+    $('modal-descripcion').textContent = fanfic.descripcion || '';
+
+    const estadoEl = $('modal-estado');
+    estadoEl.textContent = fanfic.estado || '';
+    estadoEl.className = `self-start rounded-full px-3 py-1 text-xs font-semibold text-white ${
+      fanfic.estado === 'Completo' ? 'bg-emerald-600' : 'bg-amber-500'
+    }`;
+
+    $('modal-capitulos').querySelector('span')!.textContent     = `${fanfic.capitulos ?? 0} capítulos`;
+    $('modal-palabras').querySelector('span')!.textContent      = fanfic.palabras ? `${fanfic.palabras.toLocaleString()} palabras` : 'Palabras N/D';
+    $('modal-clasificacion').querySelector('span')!.textContent = `Clasificación ${fanfic.clasificacion || 'N/D'}`;
+
+    $('modal-generos').innerHTML    = tags(fanfic.generos    || [], 'border-pink-500/30 bg-pink-500/10 text-pink-300');
+    $('modal-etiquetas').innerHTML  = tags(fanfic.etiquetas  || [], 'border-violet-500/30 bg-violet-500/10 text-violet-300');
+    $('modal-personajes').innerHTML = tags(fanfic.personajes || [], 'border-sky-500/30 bg-sky-500/10 text-sky-300');
+
+    $('modal-etiquetas-wrap').classList.toggle('hidden',  !fanfic.etiquetas?.length);
+    $('modal-personajes-wrap').classList.toggle('hidden', !fanfic.personajes?.length);
+
+    const enlaces: { plataforma: string; url: string }[] = fanfic.enlaces || [];
+    $('modal-enlaces-wrap').classList.toggle('hidden', enlaces.length === 0);
+    $('modal-enlaces').innerHTML = enlaces.map(e => {
+      const p = (e.plataforma || '').toLowerCase();
+      let cls = 'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg';
+      let icon = '';
+
+      if (p.includes('wattpad')) {
+        cls  += ' bg-[#ff6122] hover:bg-[#ff7b47]';
+        icon  = `<svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M5.5 7.5h2.2l1.2 7.4 1.6-7.4h2.5l1.6 7.4 1.2-7.4H18l-2.2 10h-2.7L11.9 12l-1.2 5.5H8L5.5 7.5z"/></svg>`;
+      } else if (p.includes('ao3') || p.includes('archive')) {
+        cls  += ' bg-[#990000] hover:bg-[#b30000]';
+        icon  = `<svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d="M12 2L4 22h3l1.8-4.5h6.4L17 22h3L12 2zm-2 11 2-5 2 5h-4z"/></svg>`;
+      } else {
+        cls  += ' bg-gradient-to-r from-violet-600 to-pink-600';
+        icon  = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+      }
+
+      return `<a href="${e.url}" target="_blank" rel="noopener noreferrer" class="${cls}">${icon}<span>${e.plataforma}</span></a>`;
+    }).join('');
+
+    modal.classList.add('flex');
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+
+function closeModal() {
+  modal.classList.remove('flex');
+  modal.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  document.addEventListener('click', e => {
+    const btn = (e.target as Element).closest('[data-action="open-modal"]');
+    if (!btn) return;
+    const article = btn.closest('article[data-fanfic]');
+    if (!article) return;
+    openModal(JSON.parse(article.getAttribute('data-fanfic')!));
+  });
+
+  document.addEventListener('open-fanfic-modal', (e) => {
+    openModal((e as CustomEvent).detail);
+  });
+</script>

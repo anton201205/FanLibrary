@@ -1,0 +1,61 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import Navbar from "../components/Navbar.astro";
+import FanficGrid from "../components/FanficGrid.astro";
+import FanficModal from "../components/FanficModal.astro";
+
+import fanfics from "../data/fanfics.json";
+
+const currentPage = 1;
+const totalPages = Math.ceil(fanfics.length / 20);
+
+const fanficsPagina = fanfics.slice(0, 20);
+---
+
+<MainLayout title="Inicio">
+  <Navbar currentPath="/" />
+
+  <main class="mx-auto max-w-7xl px-6 py-10">
+
+    <section class="mb-10 rounded-3xl border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm">
+      <h1 class="text-5xl font-bold tracking-tight">
+        Bienvenido a FanficWorld
+      </h1>
+
+      <p class="mt-4 max-w-2xl text-lg text-slate-400">
+        Descubre, organiza y guarda tus fanfictions favoritas. Explora miles de
+        historias.
+      </p>
+    </section>
+
+    <section class="space-y-6">
+
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold text-white">
+          Fanfics recientes
+        </h2>
+
+        <span class="text-sm text-slate-400">
+          {fanfics.length} fanfics disponibles
+        </span>
+      </div>
+
+      <FanficGrid
+        fanfics={fanficsPagina}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
+
+    </section>
+
+  </main>
+
+   <FanficModal />
+</MainLayout>
+
+<script>
+  import { initLibraryButtons } from "../scripts/library.js";
+
+  document.addEventListener("DOMContentLoaded", () => initLibraryButtons());
+  document.addEventListener("astro:page-load", () => initLibraryButtons());
+</script>

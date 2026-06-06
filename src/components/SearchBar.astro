@@ -1,0 +1,56 @@
+---
+interface Props {
+  placeholder?: string;
+  inputId?: string;
+}
+
+const {
+  placeholder = "Buscar por título...",
+  inputId = "search-input",
+} = Astro.props;
+---
+
+<div class="relative w-full group">
+
+  <span class="absolute left-5 top-1/2 z-10 -translate-y-1/2 text-slate-400 transition-colors duration-200 group-focus-within:text-pink-400">
+  </span>
+
+  <input
+    type="search"
+    id={inputId}
+    placeholder={placeholder}
+    autocomplete="off"
+    aria-label={placeholder}
+    class="w-full rounded-3xl border border-white/10 bg-slate-900/70 py-4 pl-14 pr-14 text-base text-white placeholder:text-slate-500 backdrop-blur-sm outline-none transition-all duration-300 hover:border-pink-500/20 focus:border-pink-500/50 focus:ring-4 focus:ring-pink-500/10 focus:shadow-lg focus:shadow-pink-500/10"
+  />
+
+  <button
+    id={`${inputId}-clear`}
+    class="absolute right-4 top-1/2 hidden -translate-y-1/2 h-8 w-8 items-center justify-center rounded-full text-slate-400 transition-all duration-200 hover:bg-white/5 hover:text-pink-300"
+    aria-label="Limpiar búsqueda"
+  >
+    ✕
+  </button>
+
+</div>
+
+<script define:vars={{ inputId }}>
+  const input = document.getElementById(inputId);
+  const clearBtn = document.getElementById(`${inputId}-clear`);
+
+  if (input && clearBtn) {
+    input.addEventListener("input", () => {
+      clearBtn.classList.toggle(
+        "hidden",
+        input.value.length === 0
+      );
+    });
+
+    clearBtn.addEventListener("click", () => {
+      input.value = "";
+      clearBtn.classList.add("hidden");
+      input.dispatchEvent(new Event("input"));
+      input.focus();
+    });
+  }
+</script>
