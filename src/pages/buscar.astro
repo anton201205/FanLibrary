@@ -28,7 +28,12 @@ const personajes = [...new Set(
 
 const currentPage = 1;
 const totalPages = Math.ceil(fanficsData.length / 20);
-const fanficsPagina = fanficsData.slice(0, 20);
+const fanficsPagina = fanficsData.slice(0, 20).map(f => ({
+  ...f,
+  relaciones: f.relaciones || [],
+  generos: f.generos || [],
+  personajes: f.personajes || [],
+}));
 ---
 
 <MainLayout title="Buscar">
