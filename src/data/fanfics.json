@@ -172,8 +172,8 @@
     "capitulos": 20,
     "palabras": 70218,
     "estado": "En Progreso",
-    "clasificacion": "M",
-    "generos": ["What If", "Terror", "Violencia Sexual", "Contenido Sexual", "Harem", "Basado en ThinkMind"],
+    "clasificacion": "NSFW",
+    "generos": ["What If", "Terror", "Violencia Sexual", "Contenido Sexual", "Harem", "Basado en ThinkMind", "NSFW"],
     "relaciones": ["Emilia/Subaru", "Priscilla/Subaru", "Rem/Subaru", "Crusch/Subaru", "Ram/Subaru", "Felt/Subaru", "Satella/Subaru", "Shaula/Subaru", "Aura/Subaru", "Petra/Subaru"],
     "personajes": ["Subaru", "Naoko Natsuki", "Kenichi Natsuki", "Emilia", "Priscilla Barielle", "Rem", "Ram", "Crusch Karsten", "Wilhelm van Astrea", "Felix Argyle", "Felt", "Anastasia Hoshin", "Capella Emerada Lugnica", "Pandora", "Beatrice", "Frederica Baumann", "Patrasche"],
     "enlaces": [
