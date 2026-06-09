@@ -1,7 +1,6 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
 import Navbar from "../components/Navbar.astro";
-import SearchBar from "../components/SearchBar.astro";
 import FilterPanel from "../components/FilterPanel.astro";
 import FanficGrid from "../components/FanficGrid.astro";
 import FanficModal from "../components/FanficModal.astro";
@@ -15,44 +14,35 @@ const generos = [...new Set(
   fanficsData.flatMap((f) => f.generos || [])
 )].sort((a, b) => a.localeCompare(b, "es"));
 
-const etiquetas = [...new Set(
-  fanficsData.flatMap((f) => f.etiquetas || [])
+const relaciones = [...new Set(
+  fanficsData.flatMap((f) => f.relaciones || [])
+)].sort((a, b) => a.localeCompare(b, "es"));
+
+const clasificaciones = [...new Set(
+  fanficsData.map((f) => f.clasificacion).filter(Boolean)
+)].sort();
+
+const personajes = [...new Set(
+  fanficsData.flatMap((f) => f.personajes || [])
 )].sort((a, b) => a.localeCompare(b, "es"));
 
 const currentPage = 1;
 const totalPages = Math.ceil(fanficsData.length / 20);
-
 const fanficsPagina = fanficsData.slice(0, 20);
 ---
 
 <MainLayout title="Buscar">
-
   <Navbar currentPath="/buscar" />
 
   <main class="mx-auto max-w-7xl px-3 sm:px-6 py-8 sm:py-10">
 
     <!-- Hero -->
-    <section
-      class="mb-8 rounded-3xl border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm"
-    >
-      <h1 class="text-4xl font-bold tracking-tight">
-        Buscar Fanfics
-      </h1>
-
+    <section class="mb-8 rounded-3xl border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm">
+      <h1 class="text-4xl font-bold tracking-tight">Buscar Fanfics</h1>
       <p class="mt-3 max-w-2xl text-slate-400">
-        Explora historias por autor, género y etiquetas.
-        <span class="font-semibold text-pink-300">
-          {fanficsData.length}
-        </span>
-        fanfics disponibles.
+        Explora historias por autor, género y relaciones.
+        <span class="font-semibold text-pink-300">{fanficsData.length}</span> fanfics disponibles.
       </p>
-    </section>
-
-    <!-- Search -->
-    <section class="mb-8">
-      <SearchBar
-        placeholder="Buscar por título, autor o etiqueta..."
-      />
     </section>
 
     <!-- Layout -->
@@ -63,45 +53,204 @@ const fanficsPagina = fanficsData.slice(0, 20);
         <FilterPanel
           autores={autores}
           generos={generos}
-          etiquetas={etiquetas}
+          relaciones={relaciones}
+          clasificaciones={clasificaciones}
+          personajes={personajes}
         />
       </div>
 
       <!-- Contenido -->
       <div class="space-y-6">
-
         <div class="flex items-center justify-between">
-
           <div>
-            <h2 class="text-xl font-semibold text-white">
-              Resultados
-            </h2>
-
-            <p class="text-sm text-slate-400">
+            <h2 class="text-xl font-semibold text-white">Resultados</h2>
+            <p id="result-count" class="text-sm text-slate-400">
               {fanficsData.length} fanfics encontrados
             </p>
           </div>
-
         </div>
 
-        <FanficGrid
-          fanfics={fanficsPagina}
-          currentPage={currentPage}
-          totalPages={totalPages}
-        />
-
+        <div id="fanfic-grid-wrapper">
+          <FanficGrid
+            fanfics={fanficsPagina}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
+        </div>
       </div>
 
     </section>
-
   </main>
 
-   <FanficModal />
+  <FanficModal />
 </MainLayout>
 
+<!-- Todos los fanfics para filtrado client-side -->
+<script id="all-fanfics" type="application/json" set:html={JSON.stringify(fanficsData)} />
+
 <script>
-  import { initLibraryButtons } from "../scripts/library.js";
+  import { initLibraryButtons, isInLibrary } from "../scripts/library.js";
 
   document.addEventListener("DOMContentLoaded", () => initLibraryButtons());
   document.addEventListener("astro:page-load", () => initLibraryButtons());
+
+  const allFanfics: any[] = JSON.parse(
+    document.getElementById("all-fanfics")!.textContent!
+  );
+
+  function normalize(str: string) {
+    return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function renderTagsHTML(tags: string[] = [], max = 2) {
+    return tags.slice(0, max).map(tag => `
+      <span class="inline-block rounded-full border border-white/10 bg-slate-950/50 px-2 py-0.5 text-[10px] text-slate-400">
+        ${tag}
+      </span>
+    `).join("");
+  }
+
+  function renderCards(fanfics: any[]) {
+    const wrapper = document.getElementById("fanfic-grid-wrapper")!;
+    const count   = document.getElementById("result-count")!;
+    count.textContent = `${fanfics.length} fanfics encontrados`;
+
+    if (!fanfics.length) {
+      wrapper.innerHTML = `
+        <div class="flex flex-col items-center justify-center gap-4 py-20 text-center">
+          <span class="text-6xl opacity-40">📭</span>
+          <p class="text-sm text-slate-400">No se encontraron fanfics.</p>
+        </div>`;
+      return;
+    }
+
+    wrapper.innerHTML = `
+      <div class="grid grid-cols-3 gap-2.5 sm:gap-4 md:grid-cols-4 xl:grid-cols-5">
+        ${fanfics.map(f => {
+          const fanficJson = JSON.stringify(f).replace(/"/g, "&quot;");
+          const inLib      = isInLibrary(f.id);
+          const addBtn     = inLib
+            ? `<button
+                data-action="add" data-id="${f.id}" data-fanfic="${fanficJson}"
+                class="mt-auto rounded-lg bg-emerald-600 py-1 text-[0.55rem] sm:text-sm font-semibold text-white sm:rounded-xl sm:py-2.5"
+                disabled aria-pressed="true">
+                ✓ En tu biblioteca
+              </button>`
+            : `<button
+                data-action="add" data-id="${f.id}" data-fanfic="${fanficJson}"
+                class="mt-auto rounded-lg bg-gradient-to-r from-pink-500 to-orange-500 py-1 text-[0.55rem] sm:text-sm font-semibold text-white transition hover:opacity-90 sm:rounded-xl sm:py-2.5"
+                aria-pressed="false">
+                ＋ Añadir
+              </button>`;
+
+          return `
+            <article
+              data-fanfic="${fanficJson}"
+              class="group flex flex-col overflow-hidden rounded-xl sm:rounded-2xl border border-white/10 bg-slate-900/70 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-pink-500/30 hover:shadow-xl hover:shadow-pink-500/10"
+            >
+              <button data-action="open-modal" class="relative block w-full overflow-hidden text-left">
+                <img
+                  src="${f.portada || 'https://picsum.photos/300/450'}"
+                  alt="${f.titulo}"
+                  loading="lazy"
+                  onerror="this.src='https://picsum.photos/300/450'"
+                  class="aspect-[2/3] w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                <span class="absolute left-1.5 top-1.5 sm:left-2 sm:top-2 rounded-full px-1.5 py-0.5 sm:px-2 text-[0.5rem] sm:text-[0.6rem] font-bold uppercase tracking-wide text-white shadow ${
+                  f.estado === 'Completo' ? 'bg-emerald-600' : 'bg-amber-500'
+                }">
+                  ${f.estado ?? ''}
+                </span>
+                <div class="absolute bottom-0 left-0 right-0 p-1.5 sm:p-2">
+                  <h3 class="line-clamp-2 text-[0.7rem] sm:text-sm font-bold leading-3 sm:leading-4 text-white drop-shadow-md">
+                    ${f.titulo}
+                  </h3>
+                </div>
+              </button>
+
+              <div class="flex flex-1 flex-col gap-1 p-2 sm:gap-3 sm:p-4">
+                <p class="truncate text-[0.55rem] sm:text-xs text-slate-400">
+                  <span class="font-semibold text-pink-300">${f.autor}</span>
+                </p>
+                <p class="text-[0.55rem] sm:text-xs text-slate-500">${f.capitulos} cap.</p>
+                <div class="hidden sm:flex flex-wrap gap-1">
+                  ${renderTagsHTML(f.generos, 2)}
+                </div>
+                ${addBtn}
+              </div>
+            </article>`;
+        }).join("")}
+      </div>`;
+
+    // Re-inicializar modal y biblioteca
+    initLibraryButtons();
+    document.querySelectorAll("[data-action='open-modal']").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const article = btn.closest("article");
+        if (!article) return;
+        try {
+          const fanfic = JSON.parse((article as HTMLElement).dataset.fanfic || "{}");
+          document.dispatchEvent(new CustomEvent("fanfic:open", { detail: fanfic }));
+        } catch {}
+      });
+    });
+  }
+
+  // ── Listener del evento de filtrado ───────────────────────────────────────
+  document.addEventListener("fanfic:filter", (e: Event) => {
+    const filters = (e as CustomEvent).detail as {
+      autor?: string;
+      genero?: string;
+      estado?: string;
+      clasificacion?: string;
+      orden?: string;
+      personajes?: string[];
+      relaciones?: string[];
+    };
+
+    let result = [...allFanfics];
+
+    if (filters.autor) {
+      result = result.filter(f =>
+        normalize(f.autor).includes(normalize(filters.autor!))
+      );
+    }
+    if (filters.genero) {
+      result = result.filter(f =>
+        (f.generos || []).some((g: string) =>
+          normalize(g).includes(normalize(filters.genero!))
+        )
+      );
+    }
+    if (filters.estado) {
+      result = result.filter(f => f.estado === filters.estado);
+    }
+    if (filters.clasificacion) {
+      result = result.filter(f => f.clasificacion === filters.clasificacion);
+    }
+    if (filters.personajes?.length) {
+      result = result.filter(f =>
+        filters.personajes!.every(p => (f.personajes || []).includes(p))
+      );
+    }
+    if (filters.relaciones?.length) {
+      result = result.filter(f =>
+        filters.relaciones!.every(r => (f.relaciones || []).includes(r))
+      );
+    }
+
+    const orden = filters.orden || "capitulos";
+    if (orden === "capitulos")
+      result.sort((a, b) => (b.capitulos || 0) - (a.capitulos || 0));
+    else if (orden === "reciente")
+      result.sort((a, b) =>
+        new Date(b.fechaActualizacion || 0).getTime() -
+        new Date(a.fechaActualizacion || 0).getTime()
+      );
+    else if (orden === "titulo")
+      result.sort((a, b) => a.titulo.localeCompare(b.titulo, "es"));
+
+    renderCards(result);
+  });
 </script>

@@ -55,10 +55,10 @@
         <div id="modal-generos" class="flex flex-wrap gap-1.5"></div>
       </div>
 
-      <!-- Etiquetas -->
-      <div id="modal-etiquetas-wrap">
-        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">Etiquetas</p>
-        <div id="modal-etiquetas" class="flex flex-wrap gap-1.5"></div>
+      <!-- relaciones -->
+      <div id="modal-relaciones-wrap">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-widest text-slate-500">relaciones</p>
+        <div id="modal-relaciones" class="flex flex-wrap gap-1.5"></div>
       </div>
 
       <!-- Personajes -->
@@ -108,10 +108,10 @@
     $('modal-clasificacion').querySelector('span')!.textContent = `Clasificación ${fanfic.clasificacion || 'N/D'}`;
 
     $('modal-generos').innerHTML    = tags(fanfic.generos    || [], 'border-pink-500/30 bg-pink-500/10 text-pink-300');
-    $('modal-etiquetas').innerHTML  = tags(fanfic.etiquetas  || [], 'border-violet-500/30 bg-violet-500/10 text-violet-300');
+    $('modal-relaciones').innerHTML  = tags(fanfic.relaciones  || [], 'border-violet-500/30 bg-violet-500/10 text-violet-300');
     $('modal-personajes').innerHTML = tags(fanfic.personajes || [], 'border-sky-500/30 bg-sky-500/10 text-sky-300');
 
-    $('modal-etiquetas-wrap').classList.toggle('hidden',  !fanfic.etiquetas?.length);
+    $('modal-relaciones-wrap').classList.toggle('hidden',  !fanfic.relaciones?.length);
     $('modal-personajes-wrap').classList.toggle('hidden', !fanfic.personajes?.length);
 
     const enlaces: { plataforma: string; url: string }[] = fanfic.enlaces || [];

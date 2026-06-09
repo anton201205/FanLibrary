@@ -41,7 +41,7 @@ export function addToLibrary(fanfic) {
     capitulos:     fanfic.capitulos,
     estado:        fanfic.estado,
     generos:       fanfic.generos,
-    etiquetas:     fanfic.etiquetas,
+    relaciones:     fanfic.relaciones,
     personajes:    fanfic.personajes,
     palabras:      fanfic.palabras,
     clasificacion: fanfic.clasificacion,

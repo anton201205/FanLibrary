@@ -9,13 +9,9 @@
     "palabras": 0,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre"],
-    "etiquetas": [
-      "Emilia/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck"
-    ],
+    "generos": ["Romance", "Drama", "Aventura", "Tragedia"],
+    "relaciones": ["Emilia/Subaru"],
+    "personajes": ["Emilia", "Subaru", "Rom", "Valga Cromwell", "Felt", "Reinhard van Astrea", "Elsa Granhiert", "Roswaal L. Mathers", "Rem", "Ram", "Felix Argyle", "Wilhelm van Astrea", "Crusch Karsten", "Anastasia Hoshin", "Priscilla Barielle", "Aldebaran", "Petelgeuse Romanée-Conti", "Otto Suwen", "Julius Juukulius", "Miklotov MacMahon", "Bordeaux Zellgef"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
@@ -37,13 +33,9 @@
     "palabras": 606.253,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["Emilia Asertiva", "Regreso por la Muerte", "Greed IF", "Pride IF", "Sloth IF", "Gluttony IF", "Wrath IF", "Inspirado en WHDAAA", "Crossover", "Jujutsu Kaisen"],
+    "relaciones": ["Emilia/Subaru", "Rem/Subaru", "Beatrice/Subaru", "Satella/Subaru", "Priscilla/Subaru", "Crusch/Subaru", "Anastasia/Subaru", "Echidna/Subaru", "Elsa/Subaru", "Patrasche/Subaru", "Shion/Subaru"],
+    "personajes": ["Emilia", "Rem", "Ram", "Roswaal L. Mathers", "Otto Suwen", "Garfiel Tinsel", "Frederica Baumann", "Petra Leyte", "Felt", "Reinhard van Astrea", "Crusch Karsten", "Felix Argyle", "Wilhelm van Astrea", "Julius Juukulius", "Ricardo Welkin", "Mimi Pearlbaton", "Tivey Pearlbaton", "Anastasia Hoshin", "Priscilla Barielle", "Aldebaran", "Subaru", "Patrasche", "Shion", "Reid Astrea", "Volcanica", "Halibel", "Cecilus Segmunt", "Elsa Granhiert", "Meili Portroute", "Shaula", "Echidna la Bruja", "Echidna el Espíritu", "Beatrice"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
@@ -65,13 +57,9 @@
     "palabras": 90339,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["Re:Forgotten IF", "Inspirado en Re:Forgotten", "Inspirado en WHDAAA"],
+    "relaciones": ["Fortuna/Petelgeuse Romanée-Conti"],
+    "personajes": ["Subaru", "Fortuna", "Petelgeuse Romanée-Conti", "Archi Elior", "Ryuuzu Meyer", "Elsa Granhiert", "Libre Fermi", "Kurgan", "Fourier Lugnica", "Theresia van Astrea", "Melakuera", "Niños Natsuki"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
@@ -93,13 +81,9 @@
     "palabras": 199951,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["Inspirado en Re:Forgotten", "Regreso por la Muerte", "Sanación", "Trauma", "Re:Forgotten IF", "Inspirado en WHDAAA", "Post-Arco 5"],
+    "relaciones": ["Elsa/Subaru", "Theresia/Wilhelm", "Crusch/Fourier", "Anastasia/Julius", "Ryuuzu/Beatrice", "Felix/Crusch/Fourier"],
+    "personajes": ["Subaru", "Fortuna", "Petelgeuse Romanée-Conti", "Archi Elior", "Ryuuzu Meyer", "Kurgan", "Theresia van Astrea", "Melakuera", "Libre Fermi", "Fourier Lugnica", "Elsa Granhiert", "Emilia", "Beatrice", "Garfiel Tinsel", "Otto Suwen", "Crusch Karsten", "Felix Argyle", "Wilhelm van Astrea", "Felt", "Rom", "Valga Cromwell", "Anastasia Hoshin", "Ricardo Welkin", "Mimi Pearlbaton", "Hetaro Pearlbaton", "Tivey Pearlbaton", "Julius Juukulius", "Niños Natsuki", "Ram", "Frederica Baumann", "Petra Leyte", "Meili Portroute", "Patrasche", "Puck", "Priscilla Barielle", "Aldebaran", "Heinkel Astrea", "Liliana Masquerade", "Shaula", "Satella", "Rem", "Pandora", "Sirius Romanée-Conti", "Capella Emerada Lugnica", "Lye Batenkaitos", "Roy Alphard", "Rui Arneb", "Sphinx"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
@@ -121,13 +105,9 @@
     "palabras": 258716,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["Inspirado en Re:Forgotten", "Regreso por la Muerte", "Sanación", "Trauma", "Re:Forgotten IF", "Inspirado en WHDAAA", "Post-Arco 5", "Reaccion"],
+    "relaciones": ["Elsa/Subaru", "Theresia/Wilhelm", "Crusch/Fourier", "Felix/Crusch", "Anastasia/Julius"],
+    "personajes": ["Subaru", "Emilia", "Beatrice", "Otto Suwen", "Garfiel Tinsel", "Frederica Baumann", "Petra Leyte", "Meili Portroute", "Rem", "Ram", "Reinhard van Astrea", "Roswaal L. Mathers", "Felt", "Felix Argyle", "Crusch Karsten", "Julius Juukulius", "Wilhelm van Astrea", "Anastasia Hoshin", "Mimi Pearlbaton", "Hetaro Pearlbaton", "Elsa Granhiert", "Tivey Pearlbaton", "Ricardo Welkin", "Priscilla Barielle", "Aldebaran", "Heinkel Astrea", "Satella", "Echidna la Bruja", "Typhon", "Minerva", "Carmilla", "Sekhmet", "Daphne", "Melakuera", "Petelgeuse Romanée-Conti", "Fortuna", "Fourier Lugnica", "Archi Elior", "Libre Fermi", "Rom", "Valga Cromwell", "Ryuuzu Meyer", "Kurgan", "Theresia van Astrea", "Marcos Gildark", "Niños Natsuki", "Ezzo Cadner", "Gaston", "Larkins Hoffman", "Camberley"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
@@ -149,13 +129,9 @@
     "palabras": 0,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["Drama","Reaccion", "Inspirado en WHDAAA"],
+    "relaciones": ["Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Anastasia/Subaru","Felt/Subaru"],
+    "personajes": ["Aldebaran", "Anastasia Hoshin", "Beatrice", "Crusch Karsten", "Emilia", "Felix Argyle", "Felt", "Garfiel Tinsel", "Julius Juukulius", "Otto Suwen", "Priscilla Barielle", "Ram", "Reinhard van Astrea", "Ricardo Welkin", "Roswaal L. Mathers", "Subaru"],
     "enlaces": [
       {
         "plataforma": "Wattpad",
@@ -173,13 +149,9 @@
     "palabras": 236040,
     "estado": "En Progreso",
     "clasificacion": "T",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["Aventura"],
+    "relaciones":  ["Rem/Subaru", "Emilia/Subaru", "Priscilla/Subaru", "Anastasia/Subaru", "Shaula/Subaru", "Kenichi/Naoko", "Theresia/Wilhelm", "Crusch/Fourier"],
+    "personajes": ["Subaru", "Naoko Natsuki", "Kenichi Natsuki", "Emilia", "Puck", "Felt", "Reinhard van Astrea", "Elsa Granhiert", "Rom", "Valga Cromwell", "Ram", "Rem", "Petra Leyte", "Meili Portroute", "Roswaal L. Mathers", "Roswaal A. Mathers", "Beatrice", "Wilhelm van Astrea", "Felix Argyle", "Julius Juukulius", "Priscilla Barielle", "Aldebaran", "Kadomon Risch", "Marcos Gildark", "Anastasia Hoshin", "Crusch Karsten", "Fourier Lugnica", "Shaula", "Heinkel Astrea", "Schult", "Mimi Pearlbaton", "Tivey Pearlbaton", "Hetaro Pearlbaton", "Satella", "Otto Suwen"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
@@ -201,17 +173,37 @@
     "palabras": 70218,
     "estado": "En Progreso",
     "clasificacion": "M",
-    "generos": ["Drama", "Romance", "Aventura","Sangre","Reaccion"],
-    "etiquetas": [
-      "Emilia/Subaru", "Rem/Subaru","Priscilla/Subaru","Crusch/Subaru","Ram/Subaru"
-    ],
-    "personajes": [
-      "Emilia","Subaru","Rem","Beatrice","Ram","Puck","Priscilla","Crusch","Echidna"
-    ],
+    "generos": ["What If", "Terror", "Violencia Sexual", "Contenido Sexual", "Harem", "Basado en ThinkMind"],
+    "relaciones": ["Emilia/Subaru", "Priscilla/Subaru", "Rem/Subaru", "Crusch/Subaru", "Ram/Subaru", "Felt/Subaru", "Satella/Subaru", "Shaula/Subaru", "Aura/Subaru", "Petra/Subaru"],
+    "personajes": ["Subaru", "Naoko Natsuki", "Kenichi Natsuki", "Emilia", "Priscilla Barielle", "Rem", "Ram", "Crusch Karsten", "Wilhelm van Astrea", "Felix Argyle", "Felt", "Anastasia Hoshin", "Capella Emerada Lugnica", "Pandora", "Beatrice", "Frederica Baumann", "Patrasche"],
     "enlaces": [
       {
         "plataforma": "Archive of Our Own",
         "url": "https://archiveofourown.org/works/81501981/chapters/215358421"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "titulo": "Re:tribución del Olvidado",
+    "autor": "Cixels",
+    "portada": "https://img.wattpad.com/cover/409539476-256-k763689.jpg",
+    "descripcion": "Tras el ataque de Prestella, Natsuki Subaru cayó en el olvido, y los cinco campamentos disfrutaron por fin de la paz que tanto merecían, hasta que una entidad conocida como el Alcaide reveló la verdad sobre el chico al que habían condenado. Ahora, tras haberlo destrozado irreparablemente, se ven obligados a afrontar su futuro: un futuro donde el mayor héroe que jamás conocieron busca venganza por el infierno que le hicieron sufrir. *Inspirado en «El Juicio Final» de Zero_haven.*",
+    "capitulos": 29,
+    "palabras": 380692,
+    "estado": "En Progreso",
+    "clasificacion": "M",
+    "generos": ["Inspirado en WHDAAA", "Venganza", "Reaccion"],
+    "relaciones":  ["Emilia/Subaru", "Satella/Subaru", "Shion/Subaru"],
+    "personajes": ["Subaru", "Emilia", "Rem", "Otto Suwen", "Garfiel Tinsel", "Ram", "Felt", "Reinhard van Astrea", "Anastasia Hoshin", "Julius Juukulius", "Priscilla Barielle", "Crusch Karsten", "Wilhelm van Astrea", "Felix Argyle"],
+    "enlaces": [
+      {
+        "plataforma": "Archive of Our Own",
+        "url": "https://archiveofourown.org/works/72814361/chapters/189676896"
+      },
+      {
+        "plataforma": "Wattpad",
+        "url": "https://www.wattpad.com/story/409539476-re-tribuci%C3%B3n-del-olvidado-traducido"
       }
     ]
   }

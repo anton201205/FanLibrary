@@ -25,7 +25,7 @@ export function filterFanfics(fanfics, filters = {}) {
       normalize(f.titulo).includes(q) ||
       normalize(f.autor).includes(q) ||
       normalize(f.fandom).includes(q) ||
-      f.etiquetas?.some(t => normalize(t).includes(q))
+      f.relaciones?.some(t => normalize(t).includes(q))
     );
   }
  
@@ -51,7 +51,7 @@ export function filterFanfics(fanfics, filters = {}) {
  
   // Filtro por etiqueta
   if (tag) {
-    result = result.filter(f => f.etiquetas?.includes(tag));
+    result = result.filter(f => f.relaciones?.includes(tag));
   }
  
   // Ordenación
@@ -84,14 +84,14 @@ export function sortFanfics(fanfics, orden) {
 }
  
 /**
- * Extrae listas únicas de autores, fandoms, géneros y etiquetas.
+ * Extrae listas únicas de autores, fandoms, géneros y relaciones.
  */
 export function extractFilterOptions(fanfics) {
   const autores = [...new Set(fanfics.map(f => f.autor))].sort((a, b) => a.localeCompare(b, 'es'));
   const fandoms = [...new Set(fanfics.map(f => f.fandom))].sort((a, b) => a.localeCompare(b, 'es'));
   const generos = [...new Set(fanfics.flatMap(f => f.generos || []))].sort((a, b) => a.localeCompare(b, 'es'));
-  const etiquetas = [...new Set(fanfics.flatMap(f => f.etiquetas || []))].sort((a, b) => a.localeCompare(b, 'es'));
-  return { autores, fandoms, generos, etiquetas };
+  const relaciones = [...new Set(fanfics.flatMap(f => f.relaciones || []))].sort((a, b) => a.localeCompare(b, 'es'));
+  return { autores, fandoms, generos, relaciones };
 }
  
 /**
