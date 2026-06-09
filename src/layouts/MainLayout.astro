@@ -28,9 +28,21 @@ const { title } = Astro.props;
 />
   </head>
 
-  <body class="min-h-screen bg-slate-950 text-slate-100 bg-fixed selection:bg-pink-500/30">
+  <body class="min-h-screen overflow-x-hidden bg-slate-950 text-slate-100 bg-fixed selection:bg-pink-500/30">
     <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(236,72,153,0.15),transparent_30%),radial-gradient(circle_at_top_right,rgba(249,115,22,0.12),transparent_25%),radial-gradient(circle_at_bottom,rgba(59,130,246,0.12),transparent_35%)]"></div>
 
     <slot />
   </body>
+
+  <style is:global>
+  html,
+  body {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+</style>
 </html>
