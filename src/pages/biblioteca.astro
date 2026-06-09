@@ -13,8 +13,8 @@ import FanficModal from "../components/FanficModal.astro";
     <section class="mb-10 rounded-3xl border border-white/5 bg-white/[0.03] p-8 backdrop-blur-sm">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
         <div>
-          <h1 class="text-5xl font-bold tracking-tight">Mi Biblioteca</h1>
-          <p class="mt-4 max-w-2xl text-lg text-slate-400">
+          <h1 class="text-3xl sm:text-5xl font-bold tracking-tight">Mi Biblioteca</h1>
+          <p class="mt-4 max-w-2xl text-base sm:text-lg text-slate-400">
             <span id="lib-count" class="font-semibold text-pink-300">0</span> fanfics guardados
           </p>
         </div>
@@ -154,8 +154,8 @@ function renderCard(fanfic: any) {
         </div>
       </button>
 
-      <div class="flex flex-1 flex-col gap-2 p-2.5 sm:gap-3 sm:p-4">
-        <p class="truncate text-[0.65rem] text-slate-400">
+      <div class="flex flex-1 flex-col gap-1.5 p-2 sm:gap-3 sm:p-4">
+        <p class="truncate text-[0.6rem] sm:text-xs text-slate-400">
           <span class="font-semibold text-pink-300">${esc(fanfic.autor)}</span>
         </p>
         <p class="text-[0.65rem] text-slate-500">${fanfic.capitulos} cap.</p>
